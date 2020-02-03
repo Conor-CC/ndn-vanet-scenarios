@@ -22,28 +22,6 @@
 #include <iterator>
 
 
-/**
- * This scenario simulates a scenario with 6 cars moving and communicating
- * in an ad-hoc way.
- *
- * 5 consumers request data from a producer with frequency 1 interest per second
- * (interests contain constantly increasing sequence number).
- *
- * For every received interest, producer replies with a data packet, containing
- * 1024 bytes of payload.
- *
- * To run scenario and see what is happening, use the following command:
- *
- *     NS_LOG=ndn.Consumer:ndn.Producer ./waf --run=ndn-v2v-simple
- *
- * To modify the mobility model, see function installMobility.
- * To modify the wifi model, see function installWifi.
- * To modify the NDN settings, see function installNDN and for consumer and
- * producer settings, see functions installConsumer and installProducer
- * respectively.
- */
-
-
 namespace ns3{
   NS_LOG_COMPONENT_DEFINE ("V2VSimple");
 
