@@ -1,8 +1,10 @@
 #include "ns3/core-module.h"
 
 #include "ns3/ns2-mobility-helper.h"
-#include "ns3/wifi-helper.h"
-#include "ns3/wifi-mac-helper.h"
+// #include "ns3/wifi-helper.h"
+#include "ns3/wifi-80211p-helper.h"
+// #include "ns3/wifi-mac-helper.h"
+#include "ns3/wave-mac-helper.h"
 #include "ns3/mobility-module.h"
 #include "ns3/network-module.h"
 #include "ns3/wifi-module.h"
@@ -66,8 +68,7 @@ namespace ns3{
       // Fix non-unicast data rate to be the same as that of unicast
       Config::SetDefault("ns3::WifiRemoteStationManager::NonUnicastMode", StringValue(phyMode));
 
-      WifiHelper wifi;
-      wifi.SetStandard(WIFI_PHY_STANDARD_80211a);
+      Wifi80211pHelper waveHelper = Wifi80211pHelper::Default();
 
       YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default();
       wifiPhy.SetPcapDataLinkType(YansWifiPhyHelper::DLT_IEEE802_11_RADIO);
@@ -82,18 +83,11 @@ namespace ns3{
                                      "m2", DoubleValue(1.0));
       wifiPhy.SetChannel(wifiChannel.Create());
 
-      // Add a non-QoS upper mac
-      WifiMacHelper wifiMac;
-      // Set it to adhoc mode (It already is by default if you check the source file)
-      // QoS is also disabled by default, see wifi-helper.cc and wifi-mac-helper.cc
-      wifiMac.SetType("ns3::AdhocWifiMac");
 
-      // Disable rate control
-      wifi.SetRemoteStationManager("ns3::ConstantRateWifiManager",
-                                   "DataMode", StringValue(phyMode),
-                                   "ControlMode", StringValue(phyMode));
+      QosWaveMacHelper qosWaveMacHelper = QosWaveMacHelper::Default();
 
-      devices = wifi.Install(wifiPhy, wifiMac, c);
+      // devices = wifi.Install(wifiPhy, wifiMac, c);
+      devices = waveHelper.Install(wifiPhy, qosWaveMacHelper, c);
   }
 
   void installNDN(NodeContainer &c) {
@@ -102,8 +96,6 @@ namespace ns3{
 
       ndnHelper.Install(c);
       ndn::StrategyChoiceHelper::InstallAll("/", "/localhost/nfd/strategy/broadcast");
-
-      ///todo add v2v face
   }
 
   void installConsumer(NodeContainer &c) {
@@ -181,6 +173,7 @@ namespace ns3{
       cmd.AddValue("anim-file", "Specify name of anim file to be outputted (.xml)", animFile);
       cmd.Parse (argc, argv);
 
+      initialiseVanet();
       NS_LOG_UNCOND("\n" + cmd.GetName() + " running...");
       AnimationInterface anim(animFile);
       Simulator::Stop(Seconds(simulationEnd));
