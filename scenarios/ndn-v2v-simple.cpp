@@ -1,9 +1,7 @@
 #include "ns3/core-module.h"
 
 #include "ns3/ns2-mobility-helper.h"
-// #include "ns3/wifi-helper.h"
 #include "ns3/wifi-80211p-helper.h"
-// #include "ns3/wifi-mac-helper.h"
 #include "ns3/wave-mac-helper.h"
 #include "ns3/mobility-module.h"
 #include "ns3/network-module.h"

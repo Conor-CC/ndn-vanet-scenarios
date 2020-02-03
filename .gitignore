@@ -2,6 +2,7 @@
 .waf3-1*
 .waf-2*
 .waf3-2*
+.waf*
 .DS*
 .lock*
 build/
