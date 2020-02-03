@@ -38,7 +38,7 @@ namespace ns3{
       NS_LOG_INFO("Car "<<  mobility->GetObject<Node>()->GetId() << " is at: " <<mobility->GetPosition());
   }
 
-  void installWifi(NodeContainer &c, NetDeviceContainer &devices) {
+  void installWave(NodeContainer &c, NetDeviceContainer &devices) {
       // Modulation and wifi channel bit rate
       std::string phyMode("OfdmRate24Mbps");
       // Fix non-unicast data rate to be the same as that of unicast
@@ -129,7 +129,7 @@ namespace ns3{
       ns2MobilityHelper.Install();
 
       NetDeviceContainer netDevices;
-      installWifi(c, netDevices);
+      installWave(c, netDevices);
       installNDN(c);
       installProdConsHelpers(c);
 
