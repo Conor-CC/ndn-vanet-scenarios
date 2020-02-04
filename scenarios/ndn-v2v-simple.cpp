@@ -90,32 +90,33 @@ namespace ns3{
   }
 
   void installProdConsHelpers(NodeContainer &c) {
+      //TODO: Allow randomly alloced consumers as well as all nodes being both
       // Installs consumer and producer helpers on nodes where relevant
       Ptr<UniformRandomVariable> randomNum = CreateObject<UniformRandomVariable> ();
       NodeContainer producers;
       NodeContainer consumers;
-      std::list <int> producerIds;
-      int producerId;
-      // Randomly generated producer ids
-      for (int i = 0; i < producerCount; i++) {
-        //gen rand num
-        producerId = randomNum->GetValue(0, (nodeCount - 1));
-        //check not in list already
-        if ((producerIds.empty()) || (std::find(producerIds.begin(), producerIds.end(), producerId) != producerIds.end())) {
-          producerIds.push_front(producerId);
-        } else {
-          i = i - 1;
-        }
-      }
+      // std::list <int> producerIds;
+      // int producerId;
+      // // Randomly generated producer ids
+      // for (int i = 0; i < producerCount; i++) {
+      //   //gen rand num
+      //   producerId = randomNum->GetValue(0, (nodeCount - 1));
+      //   //check not in list already
+      //   if ((producerIds.empty()) || (std::find(producerIds.begin(), producerIds.end(), producerId) != producerIds.end())) {
+      //     producerIds.push_front(producerId);
+      //   } else {
+      //     i = i - 1;
+      //   }
+      // }
       // Producers and Consumers assigned based on the list of producerIds above
       for (int i = 0; i < nodeCount; i++) {
-        bool prod = (std::find(producerIds.begin(), producerIds.end(), i)) != (producerIds.end());
-        if(!prod) {
+        // bool prod = (std::find(producerIds.begin(), producerIds.end(), i)) != (producerIds.end());
+        // if(!prod) {
           consumers.Add(c.Get(i));
-        }
-        if (prod) {
+        // }
+        // if (prod) {
           producers.Add(c.Get(i));
-        }
+        // }
       }
       installConsumer(consumers);
       installProducer(producers);
