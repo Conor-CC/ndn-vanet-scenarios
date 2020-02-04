@@ -130,13 +130,16 @@ namespace ns3{
       ns2MobilityHelper.Install();
 
       NetDeviceContainer netDevices;
+      NS_LOG_INFO("Installing WAVE on all nodes...");
       installWave(c, netDevices);
+      NS_LOG_INFO("Installing NDN Stack on all Nodes...");
       installNDN(c);
+      NS_LOG_INFO("Assigning producers and consumers as needed...");
       installProdConsHelpers(c);
-
-      for(int i = 0; i < c.GetN(); i++) {
-        Simulator::Schedule(Seconds(1), &printPosition, c.Get(i)->GetObject<WaypointMobilityModel>());
-      }
+      // for(int i = 0; i < c.GetN(); i++) {
+      //   Simulator::Schedule(Seconds(1), &printPosition, c.Get(i)->GetObject<WaypointMobilityModel>());
+      // }
+      NS_LOG_INFO("Setup complete.");
   }
 
   int main (int argc, char *argv[]) {
