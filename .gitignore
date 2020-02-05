@@ -9,3 +9,4 @@ build/
 graphs/
 *.pyc
 *.xml
+run-scenario.sh
