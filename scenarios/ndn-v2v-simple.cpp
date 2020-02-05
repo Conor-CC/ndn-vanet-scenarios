@@ -32,12 +32,6 @@ namespace ns3{
   std::string traceFile = "File path goes here...";
   std::string animFile = "ndn-v2v-test.xml";
 
-  // For Debugging purposes
-  void printPosition(Ptr<const MobilityModel> mobility) {
-      Simulator::Schedule(Seconds(1), &printPosition, mobility);
-      NS_LOG_INFO("Car "<<  mobility->GetObject<Node>()->GetId() << " is at: " <<mobility->GetPosition());
-  }
-
   void installWave(NodeContainer &c, NetDeviceContainer &devices) {
       // Modulation and wifi channel bit rate
       std::string phyMode("OfdmRate24Mbps");
@@ -136,9 +130,6 @@ namespace ns3{
       installNDN(c);
       NS_LOG_INFO("Assigning producers and consumers as needed...");
       installProdConsHelpers(c);
-      // for(int i = 0; i < c.GetN(); i++) {
-      //   Simulator::Schedule(Seconds(1), &printPosition, c.Get(i)->GetObject<WaypointMobilityModel>());
-      // }
       NS_LOG_INFO("Setup complete.");
   }
 
