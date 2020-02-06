@@ -14,6 +14,7 @@
 #include "ns3/ndnSIM/helper/ndn-stack-helper.hpp"
 #include <ns3/ndnSIM/helper/ndn-global-routing-helper.hpp>
 #include "ns3/animation-interface.h"
+#include "ns3/ndnSIM-module.h"
 
 #include <algorithm>
 #include <vector>
@@ -24,13 +25,17 @@
 
 namespace ns3{
   NS_LOG_COMPONENT_DEFINE ("V2VSimple");
-
   int simulationEnd = 100;
-  int producerCount = 0;
-  int consumerCount = 0;
   int nodeCount = 0;
   std::string traceFile = "File path goes here...";
   std::string animFile = "ndn-v2v-test.xml";
+  NodeContainer c;
+
+  void handler(int index)
+  {
+      std::cout << "handler called with argument index=" << index << std::endl;
+      c.Get(index);
+  }
 
   void installWave(NodeContainer &c, NetDeviceContainer &devices) {
       // Modulation and wifi channel bit rate
@@ -101,7 +106,6 @@ namespace ns3{
 
   void initialiseVanet() {
       Ns2MobilityHelper ns2MobilityHelper = Ns2MobilityHelper(traceFile);
-      NodeContainer c;
 
       c.Create(nodeCount);
       ns2MobilityHelper.Install();
@@ -128,8 +132,12 @@ namespace ns3{
       initialiseVanet();
       NS_LOG_UNCOND("\n" + cmd.GetName() + " running...");
       AnimationInterface anim(animFile);
+
+      Simulator::Schedule(Seconds(1), &handler, 10);
       Simulator::Stop(Seconds(simulationEnd));
-      Simulator::Run ();
+
+      ndn::L3RateTracer::InstallAll("trace-outputs/l3-rate-trace.txt", Seconds(0.5));
+      Simulator::Run();
       NS_LOG_UNCOND("Done.\n");
       return 0;
   }
