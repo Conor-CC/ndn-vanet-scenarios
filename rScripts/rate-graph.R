@@ -11,7 +11,7 @@ library(doBy)
 #########################
 # Rate trace processing #
 #########################
-data = read.table("trace-outputs/rate-trace.txt", header=T)
+data = read.table("trace-outputs/l3-rate-trace.txt", header=T)
 data$Node = factor(data$Node)
 data$FaceId <- factor(data$FaceId)
 data$Kilobits <- data$Kilobytes * 8
@@ -42,6 +42,6 @@ g.root <- ggplot(data.root) +
 
 print(g.root)
 
-png("results/rate-graph.png", width=1000, height=500)
+png("results/rate-graph.png", width=1920, height=1080)
 print(g.all)
 retval <- dev.off()
