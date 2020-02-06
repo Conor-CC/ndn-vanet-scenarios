@@ -76,11 +76,12 @@ namespace ns3{
       helper.Install(c);
   }
 
+  // PROACTIVE CONTENT DISTRIBUTION functionality should be installed within this
+  // function as it is relevant to production/distribution of data
   void installProducer(NodeContainer &c) {
       ndn::AppHelper producerHelper("ns3::ndn::Producer");
       producerHelper.SetPrefix("/v2v");
-      producerHelper.Install(c.Get(0));
-      NS_LOG_INFO("Producer installed on node " << c.Get(0)->GetId());
+      producerHelper.Install(c);
   }
 
   void installProdConsHelpers(NodeContainer &c) {
