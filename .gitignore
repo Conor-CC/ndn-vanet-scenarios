@@ -9,5 +9,6 @@ build/
 graphs/
 *.pyc
 *.xml
+*.pdf
 execute-scenario.sh
 trace-outputs/
