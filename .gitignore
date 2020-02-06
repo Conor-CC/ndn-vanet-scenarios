@@ -9,4 +9,5 @@ build/
 graphs/
 *.pyc
 *.xml
-run-scenario.sh
+execute-scenario.sh
+trace-outputs/
