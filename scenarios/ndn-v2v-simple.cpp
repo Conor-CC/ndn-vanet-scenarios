@@ -91,19 +91,32 @@ namespace ns3{
       producerHelper.Install(c);
   }
 
-  void installProdConsHelpers(NodeContainer &c) {
+  void installProactiveProducer(NodeContainer &c) {
+      ndn::AppHelper proactiveProducerHelper("ns3::ndn::ProactiveProducer");
+      proactiveProducerHelper.SetPrefix("/v2v");
+      proactiveProducerHelper.Install(c);
+  }
+
+  void installAppHelpers(NodeContainer &c) {
       //TODO: Allow randomly alloced consumers as well as all nodes being both
       // Installs consumer and producer helpers on nodes where relevant
       Ptr<UniformRandomVariable> randomNum = CreateObject<UniformRandomVariable> ();
       NodeContainer producers;
       NodeContainer consumers;
+      NodeContainer proactiveProducers;
       // Producers and Consumers assigned based on the list of producerIds above
       for (int i = 0; i < nodeCount; i++) {
           consumers.Add(c.Get(i));
           producers.Add(c.Get(i));
       }
+      //Temporary to test functionality of proactiveProducer model
+      //TODO: Assign proactiveProducers like regular producers and consumers above
+      proactiveProducers.Add(c.Get(1));
+      installProactiveProducer(proactiveProducers);
+
       installConsumer(consumers);
       installProducer(producers);
+
   }
 
   void initialiseVanet() {
@@ -119,7 +132,7 @@ namespace ns3{
       NS_LOG_INFO("Installing NDN Stack on all Nodes...");
       installNDN(c);
       NS_LOG_INFO("Assigning producers and consumers as needed...");
-      installProdConsHelpers(c);
+      installAppHelpers(c);
 
       Simulator::Schedule(Seconds(1), &handler, c);
 
