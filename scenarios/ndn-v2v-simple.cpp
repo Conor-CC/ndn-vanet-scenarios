@@ -8,6 +8,7 @@
 #include "ns3/wifi-module.h"
 #include "ns3/random-variable-stream.h"
 #include "ns3/ndnSIM/apps/ndn-producer.hpp"
+#include "ns3/ndnSIM/apps/ndn-proactive-producer.hpp"
 #include "ns3/ndnSIM/apps/ndn-consumer-cbr.hpp"
 #include "ns3/ndnSIM/apps/ndn-app.hpp"
 #include "ns3/ndnSIM/helper/ndn-app-helper.hpp"
