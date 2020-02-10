@@ -106,6 +106,7 @@ namespace ns3{
 
   void initialiseVanet() {
       Ns2MobilityHelper ns2MobilityHelper = Ns2MobilityHelper(traceFile);
+      NodeContainer c;
 
       c.Create(nodeCount);
       ns2MobilityHelper.Install();
@@ -117,6 +118,9 @@ namespace ns3{
       installNDN(c);
       NS_LOG_INFO("Assigning producers and consumers as needed...");
       installProdConsHelpers(c);
+
+      Simulator::Schedule(Seconds(1), &handler, c);
+
       NS_LOG_INFO("Setup complete.");
   }
 
