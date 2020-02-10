@@ -28,13 +28,14 @@ namespace ns3{
   int simulationEnd = 100;
   int nodeCount = 0;
   std::string traceFile = "File path goes here...";
-  std::string animFile = "ndn-v2v-test.xml";
-  NodeContainer c;
+  std::string traceOutput = std::getenv("NS3_TRACE_OUTPUTS");
+  std::string animFile = "../results/ndn-v2v-test.xml";
 
-  void handler(int index)
+  void handler(NodeContainer &c)
   {
-      std::cout << "handler called with argument index=" << index << std::endl;
-      c.Get(index);
+      std::cout << "handler called" << std::endl;
+      ndn::AppHelper producerHelper("ns3::ndn::Producer");
+      std::cout << c.Get(10)->GetNApplications() << std::endl;
   }
 
   void installWave(NodeContainer &c, NetDeviceContainer &devices) {
@@ -137,10 +138,9 @@ namespace ns3{
       NS_LOG_UNCOND("\n" + cmd.GetName() + " running...");
       AnimationInterface anim(animFile);
 
-      Simulator::Schedule(Seconds(1), &handler, 10);
       Simulator::Stop(Seconds(simulationEnd));
-
-      ndn::L3RateTracer::InstallAll("trace-outputs/l3-rate-trace.txt", Seconds(0.5));
+      traceOutput = traceOutput + "/l3-rate-trace.txt";
+      ndn::L3RateTracer::InstallAll(traceOutput, Seconds(0.5));
       Simulator::Run();
       NS_LOG_UNCOND("Done.\n");
       return 0;
